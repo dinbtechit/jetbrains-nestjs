@@ -16,7 +16,6 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.TopGap
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.intellij.ui.layout.ComboBoxPredicate
 import com.intellij.ui.layout.ComponentPredicate
 import com.intellij.util.ui.UIUtil
