@@ -24,6 +24,7 @@ import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.Action
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.util.NestGeneratorFileUtil
 import com.intellij.openapi.components.service
+import com.intellij.ui.dsl.builder.Align
 import java.awt.event.ItemEvent
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JComponent
@@ -104,27 +105,27 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
         return panel {
             row("Generate Path:") {}.visible(generatePath.text.trim().isNotBlank())
             row {
-                cell(generatePath).horizontalAlign(
-                    HorizontalAlign.FILL
+                cell(generatePath).align(
+                    Align.FILL
                 )
             }.visible(generatePath.text.trim().isNotBlank())
 
 
             row("Type:") {}.topGap(TopGap.SMALL)
             row {
-                cell(comboBox).horizontalAlign(HorizontalAlign.FILL)
+                cell(comboBox).align(Align.FILL)
             }
             row {
                 cell(
                     warningLabel.apply {
                         font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
                     }
-                ).horizontalAlign(HorizontalAlign.FILL)
+                ).align(Align.FILL)
             }
 
             row("Parameters:") {}.topGap(TopGap.SMALL)
             row {
-                cell(autoCompleteField).horizontalAlign(HorizontalAlign.FILL)
+                cell(autoCompleteField).align(Align.FILL)
             }
             row {
                 val spaces = " "
@@ -149,13 +150,13 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
             row {
                 cell(moduleInfoLabel.apply {
                     font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
-                }).horizontalAlign(
-                    HorizontalAlign.FILL
+                }).align(
+                    Align.FILL
                 ).visible(moduleInfoLabel.text.contains("module.ts"))
                 cell(noModuleFoundWarningLabel.apply {
                     font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
-                }).horizontalAlign(
-                    HorizontalAlign.FILL
+                }).align(
+                    Align.FILL
                 ).visible(
                     !moduleInfoLabel.text.contains("module.ts")
                             && generatePath.text.trim().isNotBlank()
