@@ -1,18 +1,41 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.dinbtechit.jetbrainsnestjs</id>
-    <name>jetbrains-nestjs Template</name>
+    <name>NestJS</name>
     <vendor>dinbtechit</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <resource-bundle>messages.NestBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.dinbtechit.jetbrainsnestjs.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <applicationService
+                serviceImplementation="com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore"/>
+        <fileType name="JSON" language="JSON" fileNames="nest-cli.json"/>
+        <iconProvider implementation="com.github.dinbtechit.jetbrainsnestjs.projectExplorer.NestConfigFileIconProvider"/>
+        <notificationGroup id="NestJS Notification Group" displayType="STICKY_BALLOON"/>
+        <errorHandler implementation="com.github.dinbtechit.jetbrainsnestjs.support.MyErrorReportSubmitter"/>
     </extensions>
+    <actions>
+        <action id="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestjsCliAction"
+                class="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestjsCliAction"
+                text="Nest CLI/Schematics">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir" />
+        </action>
 
-    <applicationListeners>
-        <listener class="com.github.dinbtechit.jetbrainsnestjs.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+        <action id="com.github.dinbtechit.jetbrainsnestjs.actions.notification.WhatsNewAction"
+                class="com.github.dinbtechit.jetbrainsnestjs.actions.notification.WhatsNewAction"
+                text="What's New" description="What's new">
+        </action>
+        <action id="com.github.dinbtechit.jetbrainsnestjs.actions.notification.DonateAction"
+                class="com.github.dinbtechit.jetbrainsnestjs.actions.notification.DonateAction"
+                text="Support">
+        </action>
+        <action id="com.github.dinbtechit.jetbrainsnestjs.actions.notification.StarGithubRepoAction"
+                class="com.github.dinbtechit.jetbrainsnestjs.actions.notification.StarGithubRepoAction"
+                text="Star Github Repo">
+        </action>
+
+    </actions>
 </idea-plugin>
