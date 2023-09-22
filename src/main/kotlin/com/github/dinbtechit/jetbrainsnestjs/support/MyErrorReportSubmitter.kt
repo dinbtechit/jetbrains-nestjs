@@ -54,7 +54,7 @@ class MyErrorReportSubmitter: ErrorReportSubmitter() {
 
         val appName = ApplicationInfo.getInstance().fullApplicationName
 
-        val plugin = PluginManagerCore.getPlugin(PluginId.getId("com.github.dinbtechit.jetbrains-nestjs"))
+        val plugin = PluginManagerCore.getPlugin(PluginId.getId("com.github.dinbtechit.jetbrainsnestjs"))
         val pluginVersion = plugin?.version
 
         var stackTrace = ""

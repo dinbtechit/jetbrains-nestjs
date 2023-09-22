@@ -7,7 +7,7 @@ import com.intellij.openapi.project.DumbAwareAction
 class WhatsNewAction: DumbAwareAction("What's New?") {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open("https://github.com/dinbtechit/ngxs/blob/main/CHANGELOG.md")
+        BrowserUtil.open("https://github.com/dinbtechit/jetbrains-nestjs/blob/main/CHANGELOG.md")
     }
 
 }

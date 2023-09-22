@@ -9,7 +9,7 @@ import com.intellij.openapi.project.DumbAwareAction
 class StarGithubRepoAction: DumbAwareAction("Star Repo", "", NestIcons.GitHub) {
 
     override fun actionPerformed(e: AnActionEvent) {
-        BrowserUtil.open("https://github.com/dinbtechit/ngxs")
+        BrowserUtil.open("https://github.com/dinbtechit/jetbrains-nestjs")
     }
 
 }

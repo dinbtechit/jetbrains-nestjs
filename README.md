@@ -1,12 +1,12 @@
 # <img src="src/main/resources/META-INF/pluginIcon.svg" alt="drawing" width="75"/> Jetbrains NestJS
 
-![Build](https://github.com/dinbtechit/ngxs/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/22604-ngxs.svg)](https://plugins.jetbrains.com/plugin/22604-ngxs)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/22604-ngxs.svg)](https://plugins.jetbrains.com/plugin/22604-ngxs)
+![Build](https://github.com/dinbtechit/jetbrains-nestjs/workflows/Build/badge.svg)
+[![Version](https://img.shields.io/jetbrains/plugin/v/22771-nestjs.svg)](https://plugins.jetbrains.com/plugin/22604-ngxs)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/22771-nestjs.svg)](https://plugins.jetbrains.com/plugin/22604-ngxs)
 [![Static Badge](https://img.shields.io/badge/--FFDD04?style=flat&logo=buy-me-a-coffee&logoColor=222222&label=Buy%20Me%20a%20Coffee&labelColor=FFDD04&color=FFDD04&link=https%3A%2F%2Fwww.buymeacoffee.com%2Fdinbtechit)
 ](https://www.buymeacoffee.com/dinbtechit)
 
-
+https://plugins.jetbrains.com/plugin/22771-nestjs
 <!-- Plugin description -->
 NestJS plugin provides CLI/Schematics for Jetbrains IDE.
 
