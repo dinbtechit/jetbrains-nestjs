@@ -33,8 +33,8 @@ NestJS plugin provides CLI/Schematics for Jetbrains IDE.
 
 # How can I contribute
 
-- By starring this Github project and rating the [NGXS plugin](https://plugins.jetbrains.com/plugin/22604-ngxs).
-- By submitting bugs and features -> https://github.com/dinbtechit/ngxs/issues
+- By starring this Github project and rating the [Jetbrains NestJS plugin](https://plugins.jetbrains.com/plugin/22771-nestjs).
+- By submitting bugs and features -> https://github.com/dinbtechit/jetbrains-nestjs/issues
 - By submitting pull requests for the above roadmap items.
 - By sponsoring its development to ensure that the project is actively maintained and improved.
 
