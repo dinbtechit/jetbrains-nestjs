@@ -91,7 +91,7 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
                 generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory)
             }
         }
-        ComboboxSpeedSearch(comboBox)
+        ComboboxSpeedSearch.installSpeedSearch(comboBox) { comboBox.item }
     }
 
     private fun isAppOrLibrarySelected(): Boolean {
