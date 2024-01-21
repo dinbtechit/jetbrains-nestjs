@@ -3,6 +3,11 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+### Fixed
+- Removed deprecated API
+- Updated to the latest template changes
+
+## [0.0.1]
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 - Initial NestJS CLI Action - Right click anywhere in the nest project and generate nest components. 
