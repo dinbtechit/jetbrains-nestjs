@@ -3,9 +3,16 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+### Added
+- New Menu now has controller, module and service
+- File Icons for Nest Files.
+
 ### Fixed
 - Removed deprecated API
 - Updated to the latest template changes
+
+### Changed
+- Updated icon for `nest-cli.json`. 
 
 ## [0.0.1]
 ### Added

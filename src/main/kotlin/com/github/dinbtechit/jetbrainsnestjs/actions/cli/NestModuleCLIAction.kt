@@ -10,7 +10,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.DumbAwareAction
 
 
-class NestjsCliAction : DumbAwareAction(NestIcons.logo) {
+class NestModuleCLIAction : DumbAwareAction(NestIcons.FileTypeModule) {
 
     override fun getActionUpdateThread() = ActionUpdateThread.BGT
 
@@ -18,7 +18,7 @@ class NestjsCliAction : DumbAwareAction(NestIcons.logo) {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
         val nestStoreService = project!!.service<CLIState>()
-        val dialog = GenerateCLIDialog(project, e)
+        val dialog = GenerateCLIDialog(project, e, "module")
         val nestProject = project.service<NestProject>()
         val clickedOk = dialog.showAndGet()
         if (clickedOk) {
