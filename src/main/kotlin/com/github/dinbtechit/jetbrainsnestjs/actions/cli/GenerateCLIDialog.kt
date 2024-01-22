@@ -1,8 +1,13 @@
 package com.github.dinbtechit.jetbrainsnestjs.actions.cli
 
+import ai.grazie.utils.capitalize
+import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.Action
+import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
+import com.github.dinbtechit.jetbrainsnestjs.actions.cli.util.NestGeneratorFileUtil
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.project.Project
@@ -14,21 +19,18 @@ import com.intellij.ui.ComboboxSpeedSearch
 import com.intellij.ui.TextFieldWithAutoCompletion
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
+import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.TopGap
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.layout.ComboBoxPredicate
 import com.intellij.ui.layout.ComponentPredicate
 import com.intellij.util.ui.UIUtil
-import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.Action
-import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
-import com.github.dinbtechit.jetbrainsnestjs.actions.cli.util.NestGeneratorFileUtil
-import com.intellij.openapi.components.service
-import com.intellij.ui.dsl.builder.Align
 import java.awt.event.ItemEvent
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JComponent
 
-class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : DialogWrapper(project) {
+class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val type: String? = null) :
+    DialogWrapper(project) {
     private val autoCompleteField = TextFieldWithAutoCompletion(
         project,
         CLIOptionsCompletionProvider(CLIOptionsCompletionProvider.options.keys.toList()), false,
@@ -66,10 +68,10 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
     }
 
     init {
-        title = "Nest CLI/Schematics Generate"
+        title = if (type != null) "Nest ${type.capitalize()} Generate" else "Nest CLI/Schematics Generate"
         val state = nestStoreService.store.getState()
-        comboBox.item = state.type ?: "controller"
-        autoCompleteField.text = state.parameter
+        comboBox.item = type ?: (state.type ?: "controller")
+        autoCompleteField.text = if (type == null) state.parameter else ""
         generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory)
         generatePath.isEnabled = false
         moduleInfoLabel.text = """<html><b>Updates Module:</b> 
@@ -91,7 +93,7 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
                 generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory)
             }
         }
-        ComboboxSpeedSearch(comboBox)
+        ComboboxSpeedSearch.installSpeedSearch(comboBox) { comboBox.item }
     }
 
     private fun isAppOrLibrarySelected(): Boolean {
@@ -110,10 +112,10 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
             }.visible(generatePath.text.trim().isNotBlank())
 
 
-            row("Type:") {}.topGap(TopGap.SMALL)
+            row("Type:") {}.topGap(TopGap.SMALL).visible(type == null)
             row {
                 cell(comboBox).align(Align.FILL)
-            }
+            }.visible(type == null)
             row {
                 cell(
                     warningLabel.apply {
@@ -161,7 +163,7 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
                             && generatePath.text.trim().isNotBlank()
                 )
             }.visibleIf(showModuleLocation)
-              .visibleIf(TextComponentPredicate(autoCompleteField) {
+                .visibleIf(TextComponentPredicate(autoCompleteField) {
                     !it.contains("--skip-import")
                 })
         }
@@ -183,7 +185,7 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent) : Di
     override fun doOKAction() {
         nestStoreService.store.dispatch(
             Action.GenerateCLIAction(
-                type = comboBox.item,
+                type = type ?: comboBox.item,
                 options = autoCompleteField.text,
                 filePath = NestGeneratorFileUtil.getFilePath(project, e, directory),
                 project = project,
