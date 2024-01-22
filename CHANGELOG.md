@@ -4,8 +4,8 @@
 
 ## [Unreleased]
 ### Added
-- New Menu now has controller, module and service
-- File Icons for Nest Files.
+- New Menu for creating controller, module and service
+- New File Icons for NestJS.
 
 ### Fixed
 - Removed deprecated API
