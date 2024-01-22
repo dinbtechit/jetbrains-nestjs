@@ -3,20 +3,31 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+
+## [0.0.2] - 2024-01-22
+
 ### Added
+
 - New Menu for creating controller, module and service
 - New File Icons for NestJS.
 
 ### Fixed
+
 - Removed deprecated API
 - Updated to the latest template changes
 
 ### Changed
-- Updated icon for `nest-cli.json`. 
+
+- Updated icon for `nest-cli.json`.
 
 ## [0.0.1]
+
 ### Added
+
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 - Initial NestJS CLI Action - Right click anywhere in the nest project and generate nest components. 
 - Bug Fixes
 
+[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/dinbtechit/jetbrains-nestjs/commits/v0.0.1
