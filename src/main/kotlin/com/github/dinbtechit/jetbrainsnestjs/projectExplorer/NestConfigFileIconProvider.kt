@@ -35,6 +35,8 @@ class NestConfigFileIconProvider : IconProvider(), DumbAware {
                 fileElement.name.contains(".gateway.spec.ts", true) -> NestIcons.FileTypeGatewaySpec
                 fileElement.name.contains(".resolver.ts", true) -> NestIcons.FileTypeGateway
                 fileElement.name.contains(".resolver.spec.ts", true) -> NestIcons.FileTypeGatewaySpec
+                fileElement.name.contains(".decorator.ts", true) -> NestIcons.FileTypeGateway
+                fileElement.name.contains(".dto.ts", true) -> NestIcons.FileTypeFilter
                 else -> null
             }
         } else null
