@@ -9,30 +9,71 @@ import com.intellij.javascript.nodejs.interpreter.NodeJsInterpreterManager
 import com.intellij.javascript.nodejs.util.NodePackage
 import com.intellij.lang.javascript.JavaScriptBundle
 import com.intellij.lang.javascript.boilerplate.NpmPackageProjectGenerator
+import com.intellij.lang.javascript.buildTools.npm.PackageJsonUtil
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
-import java.nio.file.Files
-import java.nio.file.Paths
+import com.intellij.psi.PsiFile
+import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.search.GlobalSearchScope
 
 @Service(Service.Level.PROJECT)
 class NestProject {
 
     fun isNestProject(project: Project?): Boolean {
         val isProjectOpen = project != null && !project.isDisposed
-        var isFileExists = false
-
         if (isProjectOpen) {
-            assert(project != null)
-            val projectDirectory: VirtualFile = project!!.guessProjectDir()!!
-            val filePath = Paths.get(projectDirectory.path, "nest-cli.json")
-            isFileExists = Files.exists(filePath)
-            return isFileExists
+            return getAllNestJSCliFiles(project!!).isNotEmpty()
         }
         return false
+    }
+
+    fun showContextMenu(e: AnActionEvent) {
+        val project = e.project
+        val nestProject = project?.service<NestProject>()
+        val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
+        if (project == null || virtualFile == null) {
+            e.presentation.isEnabledAndVisible = false // Disable the action if required data is unavailable
+            return
+        }
+        e.presentation.isEnabledAndVisible = nestProject?.isWithinNestProjectFolder(e) == true
+    }
+
+    fun isWithinNestProjectFolder(e: AnActionEvent): Boolean {
+        val virtualFile: VirtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE)
+
+        if (e.project == null) return false
+
+            val directory = when {
+                virtualFile.isDirectory -> virtualFile // If it's directory, use it
+                else -> virtualFile.parent // Otherwise, get its parent directory
+            }
+            val nestCliFiles = getAllNestJSCliFiles(e.project!!)
+            for (showContext in nestCliFiles) {
+                if (directory.path.contains(showContext.parent.path)) {
+                    return true
+                }
+            }
+            return false
+    }
+
+    fun isFileWithinNestProject(file: PsiFile): Boolean {
+        val nestCliFiles = getAllNestJSCliFiles(file.project)
+        for (showContext in nestCliFiles) {
+            if (file.virtualFile.path.contains(showContext.parent.path)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun getAllNestJSCliFiles(project: Project): MutableCollection<VirtualFile> {
+        return FilenameIndex.getVirtualFilesByName("nest-cli.json", GlobalSearchScope.projectScope(project))
     }
 
     fun runGenerator(
@@ -45,7 +86,9 @@ class NestProject {
         val modules: MutableList<CompletionModuleInfo> = mutableListOf()
         val cli: VirtualFile = project.guessProjectDir()!!
 
-        NodeModuleSearchUtil.findModulesWithName(modules, "@nestjs/cli", cli, null)
+        val closestPackageJsonFile = PackageJsonUtil.findUpPackageJson(schematic.generateInDir!!)
+
+        NodeModuleSearchUtil.findModulesWithName(modules, "@nestjs/cli", closestPackageJsonFile, null)
 
         val module = modules.firstOrNull() ?: return
         val parameters = schematic.parameter.split(" ")

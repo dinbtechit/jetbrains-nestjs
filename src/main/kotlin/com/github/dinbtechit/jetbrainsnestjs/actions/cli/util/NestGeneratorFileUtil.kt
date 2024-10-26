@@ -2,9 +2,12 @@ package com.github.dinbtechit.jetbrainsnestjs.actions.cli.util
 
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.search.FilenameIndex
+import com.intellij.psi.search.GlobalSearchScope
 import java.nio.file.Paths
 
 object NestGeneratorFileUtil {
@@ -72,5 +75,9 @@ object NestGeneratorFileUtil {
         val relativePath = projectPath.relativize(Paths.get(filePath))
 
         return relativePath.toString()
+    }
+
+    fun getAllNestCliFiles(project: Project): Collection<VirtualFile> {
+        return FilenameIndex.getVirtualFilesByName(project, "nest-cli.json", GlobalSearchScope.projectScope(project))
     }
 }

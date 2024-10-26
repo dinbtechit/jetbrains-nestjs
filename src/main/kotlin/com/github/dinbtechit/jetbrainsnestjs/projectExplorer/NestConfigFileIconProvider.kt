@@ -13,7 +13,7 @@ class NestConfigFileIconProvider : IconProvider(), DumbAware {
     override fun getIcon(element: PsiElement, flags: Int): Icon? {
         val fileElement = element as? PsiFile
         val nestProject = element.project.service<NestProject>()
-        return if (fileElement != null && nestProject.isNestProject(element.project)) {
+        return if (fileElement != null && nestProject.isFileWithinNestProject(fileElement)) {
             when {
                 fileElement.name.equals("nest-cli.json", true) -> NestIcons.FileType
                 fileElement.name.contains(".controller.ts", true) -> NestIcons.FileTypeController

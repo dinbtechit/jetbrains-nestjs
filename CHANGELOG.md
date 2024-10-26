@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 ### Added
+- #2 - [Feature] adding support for monorepos
+- #8 - [Feature] - can't work in pnpm workspace bug
+
+## [0.0.2]
+### Added
 - New Menu for creating controller, module and service
 - New File Icons for NestJS.
 

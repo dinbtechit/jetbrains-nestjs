@@ -5,9 +5,11 @@ import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
 import com.github.dinbtechit.jetbrainsnestjs.common.nestProject.NestProject
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.DumbAwareAction
+import com.intellij.openapi.vfs.VirtualFile
 
 
 class NestjsCliAction : DumbAwareAction(NestIcons.logo) {
@@ -35,7 +37,7 @@ class NestjsCliAction : DumbAwareAction(NestIcons.logo) {
         // Display action only if it is a nest project.
         val project = e.project
         val nestProject = project?.service<NestProject>()
-        e.presentation.isEnabledAndVisible = nestProject?.isNestProject(project) == true
+        nestProject?.showContextMenu(e)
     }
 
 }
