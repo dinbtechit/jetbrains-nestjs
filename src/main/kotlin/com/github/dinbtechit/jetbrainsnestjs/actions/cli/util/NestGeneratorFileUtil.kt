@@ -27,7 +27,7 @@ object NestGeneratorFileUtil {
     }
 
     fun findClosestModuleFile(project: Project, e: AnActionEvent, workingDir: VirtualFile): VirtualFile {
-        val virtualFile: VirtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE)
+        val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
         return recursivelyFindModuleInParentFolders(virtualFile) ?: workingDir
     }
 

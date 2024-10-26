@@ -44,10 +44,10 @@ class NestProject {
         e.presentation.isEnabledAndVisible = nestProject?.isWithinNestProjectFolder(e) == true
     }
 
-    fun isWithinNestProjectFolder(e: AnActionEvent): Boolean {
-        val virtualFile: VirtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE)
+    private fun isWithinNestProjectFolder(e: AnActionEvent): Boolean {
+        val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
-        if (e.project == null) return false
+        if (e.project == null || virtualFile == null) return false
 
             val directory = when {
                 virtualFile.isDirectory -> virtualFile // If it's directory, use it
