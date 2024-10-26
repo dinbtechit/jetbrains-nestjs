@@ -11,6 +11,7 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -61,24 +62,25 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
         "No module found to update",
         AllIcons.General.Warning, JBLabel.LEFT
     )
-    private val virtualFile: VirtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE)
-    private val directory = when {
+    private val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
+
+    private val directory = if (virtualFile != null )when {
         virtualFile.isDirectory -> virtualFile // If it's directory, use it
         else -> virtualFile.parent // Otherwise, get its parent directory
-    }
+    } else project.guessProjectDir()
 
     init {
         title = if (type != null) "Nest ${type.capitalize()} Generate" else "Nest CLI/Schematics Generate"
         val state = nestStoreService.store.getState()
         comboBox.item = type ?: (state.type ?: "controller")
         autoCompleteField.text = if (type == null) state.parameter else ""
-        generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory)
+        generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory!!)
         generatePath.isEnabled = false
         moduleInfoLabel.text = """<html><b>Updates Module:</b> 
             |${
             NestGeneratorFileUtil.getRelativePath(
                 project,
-                NestGeneratorFileUtil.findClosestModuleFile(project, e, directory)
+                NestGeneratorFileUtil.findClosestModuleFile(project, e, directory!!)
             )
         } </html>
             |""".trimMargin()
@@ -187,7 +189,7 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
             Action.GenerateCLIAction(
                 type = type ?: comboBox.item,
                 options = autoCompleteField.text,
-                filePath = NestGeneratorFileUtil.getFilePath(project, e, directory),
+                filePath = NestGeneratorFileUtil.getFilePath(project, e, directory!!),
                 project = project,
                 generateInDir = directory,
                 closestModuleDir = NestGeneratorFileUtil.findClosestModuleFileDir(project, e, directory)
