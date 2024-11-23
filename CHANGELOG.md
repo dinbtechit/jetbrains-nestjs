@@ -3,7 +3,11 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+
+## [0.0.4] - 2024-11-23
+
 ### Fixed
+
 - Supporting all future builds
 
 ## [0.0.3] - 2024-10-27
@@ -37,7 +41,8 @@
 - Initial NestJS CLI Action - Right click anywhere in the nest project and generate nest components. 
 - Bug Fixes
 
-[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/dinbtechit/jetbrains-nestjs/commits/v0.0.1
