@@ -3,6 +3,8 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+### Fixed
+- Supporting all future builds
 
 ## [0.0.3] - 2024-10-27
 
