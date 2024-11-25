@@ -4,6 +4,9 @@
 
 ## [Unreleased]
 
+### Fixed
+Support 243.* releases
+
 ## [0.0.4] - 2024-11-23
 
 ### Fixed
