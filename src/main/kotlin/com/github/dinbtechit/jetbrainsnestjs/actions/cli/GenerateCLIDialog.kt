@@ -74,9 +74,9 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
     )
     private val virtualFile = e.getData(CommonDataKeys.VIRTUAL_FILE)
 
-    private val directory = if (virtualFile != null) when {
-        virtualFile.isDirectory -> virtualFile
-        else -> virtualFile.parent
+    private val directory = if (virtualFile != null )when {
+        virtualFile.isDirectory -> virtualFile // If it's directory, use it
+        else -> virtualFile.parent // Otherwise, get its parent directory
     } else project.guessProjectDir()
 
     init {
@@ -103,6 +103,12 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
     }
 
     private fun setupListeners() {
+        setupComboBoxListener()
+        setupOptionCheckBoxListeners()
+        setupAutoCompleteFieldListener()
+    }
+
+    private fun setupComboBoxListener() {
         comboBox.addItemListener {
             if (it?.stateChange == ItemEvent.SELECTED) {
                 warningLabel.isVisible = isAppOrLibrarySelected()
@@ -111,15 +117,20 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
                 }
             }
         }
-
         ComboboxSpeedSearch.installSpeedSearch(comboBox) { comboBox.item }
+    }
 
+    private fun setupOptionCheckBoxListeners() {
         optionCheckBoxes.forEach { checkBox ->
             val option = "--${checkBox.text.lowercase().replace(" ", "-")}"
-
             checkBox.addItemListener { event ->
-                val currentText = autoCompleteField.text
+                handleCheckBoxStateChange(event, option)
+            }
+        }
+    }
 
+    private fun handleCheckBoxStateChange(event: ItemEvent, option: String) {
+                val currentText = autoCompleteField.text
                 when (event.stateChange) {
                     ItemEvent.SELECTED -> {
                         if (!currentText.contains(option)) {
@@ -139,8 +150,8 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
                     }
                 }
             }
-        }
 
+    private fun setupAutoCompleteFieldListener() {
         autoCompleteField.document.addDocumentListener(object : DocumentListener {
             override fun documentChanged(event: DocumentEvent) {
                 val currentText = autoCompleteField.text
