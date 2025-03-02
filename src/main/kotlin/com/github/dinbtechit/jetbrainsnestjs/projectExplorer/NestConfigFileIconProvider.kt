@@ -2,6 +2,7 @@ package com.github.dinbtechit.jetbrainsnestjs.projectExplorer
 
 import com.github.dinbtechit.jetbrainsnestjs.NestIcons
 import com.github.dinbtechit.jetbrainsnestjs.common.nestProject.NestProject
+import com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore
 import com.intellij.ide.IconProvider
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.DumbAware
@@ -11,6 +12,10 @@ import javax.swing.Icon
 
 class NestConfigFileIconProvider : IconProvider(), DumbAware {
     override fun getIcon(element: PsiElement, flags: Int): Icon? {
+        if (!SettingsStore.instance.useCustomNestJSFileIcons) {
+            return null
+        }
+        
         val fileElement = element as? PsiFile
         val nestProject = element.project.service<NestProject>()
         return if (fileElement != null && nestProject.isFileWithinNestProject(fileElement)) {

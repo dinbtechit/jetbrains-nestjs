@@ -17,6 +17,7 @@ class SettingsStore: PersistentStateComponent<SettingsStore> {
 
     var showNotificationOnUpdate = true
     var generateOptionsAsCheckboxes = false
+    var useCustomNestJSFileIcons = true
     var version = "unknown"
 
     @Nullable
