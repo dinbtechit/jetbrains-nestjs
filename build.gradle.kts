@@ -133,6 +133,12 @@ tasks {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
 
+    patchPluginXml {
+        provider {
+            null
+        }
+    }
+
     publishPlugin {
         dependsOn(patchChangelog)
     }
