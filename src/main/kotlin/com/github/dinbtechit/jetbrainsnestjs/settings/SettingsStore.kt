@@ -16,6 +16,7 @@ class SettingsStore: PersistentStateComponent<SettingsStore> {
     }
 
     var showNotificationOnUpdate = true
+    var generateOptionsAsCheckboxes = false
     var version = "unknown"
 
     @Nullable

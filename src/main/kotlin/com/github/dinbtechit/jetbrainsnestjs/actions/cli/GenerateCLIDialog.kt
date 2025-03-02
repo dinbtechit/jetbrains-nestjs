@@ -4,6 +4,7 @@ import ai.grazie.utils.capitalize
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.Action
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.util.NestGeneratorFileUtil
+import com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -204,6 +205,10 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
                     }
                 }
             }.topGap(TopGap.SMALL)
+             .visibleIf(object : ComponentPredicate() {
+                 override fun invoke(): Boolean = SettingsStore.instance.generateOptionsAsCheckboxes
+                 override fun addListener(listener: (Boolean) -> Unit) {}
+             })
 
             val showModuleLocation = ComboBoxPredicate(comboBox) {
                 it != "app" && it != "library"

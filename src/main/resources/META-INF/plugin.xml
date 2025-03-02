@@ -12,6 +12,10 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService
                 serviceImplementation="com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore"/>
+        <applicationConfigurable parentId="language"
+                                 id="com.github.dinbtechit.nestjs.settings"
+                                 instance="com.github.dinbtechit.jetbrainsnestjs.settings.NestPluginConfigurable"
+                                 displayName="NestJS"/>
         <fileType name="JSON" language="JSON" fileNames="nest-cli.json"/>
         <iconProvider order="first" implementation="com.github.dinbtechit.jetbrainsnestjs.projectExplorer.NestConfigFileIconProvider"/>
         <notificationGroup id="NestJS Notification Group" displayType="STICKY_BALLOON"/>
