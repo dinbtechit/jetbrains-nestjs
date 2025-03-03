@@ -12,31 +12,41 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService
                 serviceImplementation="com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore"/>
+        <applicationConfigurable parentId="language"
+                                 id="com.github.dinbtechit.nestjs.settings"
+                                 instance="com.github.dinbtechit.jetbrainsnestjs.settings.NestPluginConfigurable"
+                                 displayName="NestJS"/>
         <fileType name="JSON" language="JSON" fileNames="nest-cli.json"/>
         <iconProvider order="first" implementation="com.github.dinbtechit.jetbrainsnestjs.projectExplorer.NestConfigFileIconProvider"/>
         <notificationGroup id="NestJS Notification Group" displayType="STICKY_BALLOON"/>
         <errorHandler implementation="com.github.dinbtechit.jetbrainsnestjs.support.MyErrorReportSubmitter"/>
     </extensions>
     <actions>
+        <action id="com.github.dinbtechit.jetbrainsnestjs.actions.NestJSSeparator"
+                class="com.intellij.openapi.actionSystem.Separator"
+                text="NestJS">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir"/>
+        </action>
+
         <action id="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestjsCliAction"
                 class="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestjsCliAction"
                 text="Nest CLI/Schematics">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir" />
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="com.github.dinbtechit.jetbrainsnestjs.actions.NestJSSeparator" />
         </action>
         <action id="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestModuleCLIAction"
                 class="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestModuleCLIAction"
                 text="Nest Module">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir" />
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="com.github.dinbtechit.jetbrainsnestjs.actions.NestJSSeparator" />
         </action>
         <action id="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestServiceCLIAction"
                 class="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestServiceCLIAction"
                 text="Nest Service">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir" />
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="com.github.dinbtechit.jetbrainsnestjs.actions.NestJSSeparator" />
         </action>
         <action id="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestControllerCLIAction"
                 class="com.github.dinbtechit.jetbrainsnestjs.actions.cli.NestControllerCLIAction"
                 text="Nest Controller">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewDir" />
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="com.github.dinbtechit.jetbrainsnestjs.actions.NestJSSeparator" />
         </action>
 
         <action id="com.github.dinbtechit.jetbrainsnestjs.actions.notification.WhatsNewAction"

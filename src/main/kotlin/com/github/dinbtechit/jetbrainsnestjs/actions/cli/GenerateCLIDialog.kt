@@ -4,6 +4,7 @@ import ai.grazie.utils.capitalize
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.Action
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.store.CLIState
 import com.github.dinbtechit.jetbrainsnestjs.actions.cli.util.NestGeneratorFileUtil
+import com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -15,9 +16,9 @@ import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
-import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.ComboboxSpeedSearch
 import com.intellij.ui.TextFieldWithAutoCompletion
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.ui.dsl.builder.Align
@@ -39,6 +40,16 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
     ).apply {
         setPlaceholder("filename --options")
     }
+
+    private val optionCheckBoxes = CLIOptionsCompletionProvider.options
+        .filter { it.key.startsWith("--") }
+        .map { (option, description) ->
+            val name = option.removePrefix("--").split("-")
+                .joinToString(" ") { it.capitalize() }
+            JBCheckBox(name, false).apply {
+                toolTipText = description
+            }
+        }
 
     private val nestStoreService = project.service<CLIState>()
     private val generatePath = JBTextField()
@@ -85,17 +96,72 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
         } </html>
             |""".trimMargin()
         moduleLocation.isEnabled = false
-        /*pathLabel = AllIcons.Actions.GeneratedFolder*/
-        // Initial check if warning label should be visible
+
         warningLabel.isVisible = isAppOrLibrarySelected()
         init()
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        setupComboBoxListener()
+        setupOptionCheckBoxListeners()
+        setupAutoCompleteFieldListener()
+    }
+
+    private fun setupComboBoxListener() {
         comboBox.addItemListener {
             if (it?.stateChange == ItemEvent.SELECTED) {
                 warningLabel.isVisible = isAppOrLibrarySelected()
-                generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, directory)
+                directory?.let { dir ->
+                    generatePath.text = NestGeneratorFileUtil.computeGeneratePath(comboBox.item, project, dir)
+                }
             }
         }
         ComboboxSpeedSearch.installSpeedSearch(comboBox) { comboBox.item }
+    }
+
+    private fun setupOptionCheckBoxListeners() {
+        optionCheckBoxes.forEach { checkBox ->
+            val option = "--${checkBox.text.lowercase().replace(" ", "-")}"
+            checkBox.addItemListener { event ->
+                handleCheckBoxStateChange(event, option)
+            }
+        }
+    }
+
+    private fun handleCheckBoxStateChange(event: ItemEvent, option: String) {
+                val currentText = autoCompleteField.text
+                when (event.stateChange) {
+                    ItemEvent.SELECTED -> {
+                        if (!currentText.contains(option)) {
+                            val baseText = currentText.trim()
+                            autoCompleteField.text = if (baseText.isNotEmpty()) {
+                                "$baseText $option"
+                            } else {
+                                option
+                            }
+                        }
+                    }
+                    ItemEvent.DESELECTED -> {
+                        autoCompleteField.text = currentText
+                            .replace(option, "")
+                            .replace("  ", " ")
+                            .trim()
+                    }
+                }
+            }
+
+    private fun setupAutoCompleteFieldListener() {
+        autoCompleteField.document.addDocumentListener(object : DocumentListener {
+            override fun documentChanged(event: DocumentEvent) {
+                val currentText = autoCompleteField.text
+                optionCheckBoxes.forEach { checkBox ->
+                    val option = "--${checkBox.text.lowercase().replace(" ", "-")}"
+                    checkBox.isSelected = currentText.contains(option)
+                }
+            }
+        })
     }
 
     private fun isAppOrLibrarySelected(): Boolean {
@@ -108,22 +174,17 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
         return panel {
             row("Generate Path:") {}.visible(generatePath.text.trim().isNotBlank())
             row {
-                cell(generatePath).align(
-                    Align.FILL
-                )
+                cell(generatePath).align(Align.FILL)
             }.visible(generatePath.text.trim().isNotBlank())
-
 
             row("Type:") {}.topGap(TopGap.SMALL).visible(type == null)
             row {
                 cell(comboBox).align(Align.FILL)
             }.visible(type == null)
             row {
-                cell(
-                    warningLabel.apply {
-                        font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
-                    }
-                ).align(Align.FILL)
+                cell(warningLabel.apply {
+                    font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
+                }).align(Align.FILL)
             }
 
             row("Parameters:") {}.topGap(TopGap.SMALL)
@@ -136,6 +197,19 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
                     font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
                 })
             }
+
+            group("Generation Options") {
+                for (checkBox in optionCheckBoxes) {
+                    row {
+                        cell(checkBox)
+                    }
+                }
+            }.topGap(TopGap.SMALL)
+             .visibleIf(object : ComponentPredicate() {
+                 override fun invoke(): Boolean = SettingsStore.instance.generateOptionsAsCheckboxes
+                 override fun addListener(listener: (Boolean) -> Unit) {}
+             })
+
             val showModuleLocation = ComboBoxPredicate(comboBox) {
                 it != "app" && it != "library"
                         && it != "sub-app"
@@ -153,14 +227,10 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
             row {
                 cell(moduleInfoLabel.apply {
                     font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
-                }).align(
-                    Align.FILL
-                ).visible(moduleInfoLabel.text.contains("module.ts"))
+                }).align(Align.FILL).visible(moduleInfoLabel.text.contains("module.ts"))
                 cell(noModuleFoundWarningLabel.apply {
                     font = UIUtil.getLabelFont(UIUtil.FontSize.SMALL)
-                }).align(
-                    Align.FILL
-                ).visible(
+                }).align(Align.FILL).visible(
                     !moduleInfoLabel.text.contains("module.ts")
                             && generatePath.text.trim().isNotBlank()
                 )
@@ -211,6 +281,5 @@ class GenerateCLIDialog(private val project: Project, val e: AnActionEvent, val 
                 }
             })
         }
-
     }
 }
