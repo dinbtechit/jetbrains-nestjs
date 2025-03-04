@@ -4,12 +4,16 @@
 
 ## [Unreleased]
 
+## [0.0.7] - 2025-03-04
+
 ### Added
-1. Added CLI Option Checkbox - Thanks for @radoslawkoziol contribution.
+
+- Added CLI Option Checkbox - Thanks for @radoslawkoziol contribution.
 
 ### Fixed
-1. Support all future releases
-2. #6 option to disable file icons
+
+- Support all future releases
+- #6 option to disable file icons  - Thanks for @radoslawkoziol contribution.
 
 ## [0.0.4] - 2024-11-23
 
@@ -48,7 +52,8 @@
 - Initial NestJS CLI Action - Right click anywhere in the nest project and generate nest components. 
 - Bug Fixes
 
-[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.7...HEAD
+[0.0.7]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.4...v0.0.7
 [0.0.4]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.1...v0.0.2
