@@ -4,8 +4,12 @@
 
 ## [Unreleased]
 
+### Added
+1. Added CLI Option Checkbox - Thanks for @radoslawkoziol contribution.
+
 ### Fixed
-Support all future releases
+1. Support all future releases
+2. #6 option to disable file icons
 
 ## [0.0.4] - 2024-11-23
 
