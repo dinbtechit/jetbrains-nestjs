@@ -3,6 +3,9 @@
 # jetbrains-nestjs Changelog
 
 ## [Unreleased]
+### Changed
+- Support Future releases
+- Synced with Template
 
 ## [0.0.7] - 2025-03-04
 
