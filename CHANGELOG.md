@@ -6,7 +6,8 @@
 ### Changed
 - Support Future releases
 - Synced with Template
-
+- Renaming `pluginName` from `Jetbrains-nestjs` to `NestJS`
+- 
 ## [0.0.7] - 2025-03-04
 
 ### Added
