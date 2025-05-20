@@ -3,8 +3,8 @@
     <id>com.github.dinbtechit.jetbrainsnestjs</id>
     <name>NestJS</name>
     <vendor>dinbtechit</vendor>
-
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
 
     <resource-bundle>messages.NestBundle</resource-bundle>
 
