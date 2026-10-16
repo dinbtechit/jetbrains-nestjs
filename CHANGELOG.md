@@ -4,6 +4,24 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Sync project with the latest IntelliJ Platform Plugin Template
+- Upgrade Gradle Wrapper to `9.8.0`
+- Dependencies - upgrade `org.jetbrains.intellij.platform` to `2.19.0`
+- Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `2.4.20`
+- Dependencies - upgrade `org.jetbrains.changelog` to `2.5.0`
+- Dependencies (GitHub Actions) - upgrade `actions/checkout` to `v7`, `actions/setup-java` to `v6`, `gradle/actions/setup-gradle` to `v6`, `actions/upload-artifact` to `v7`
+
+### Removed
+
+- Remove Qodana and Kover configuration and related workflow steps
+- Remove UI tests workflow and `runIdeForUiTests` task
+
+### Fixed
+
+- Replace internal `PluginManagerCore.getPlugin` API usage for compatibility with 2026.2+
+
 ## [0.0.9] - 2025-05-20
 
 ### Changed

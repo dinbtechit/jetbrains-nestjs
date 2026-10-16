@@ -6,18 +6,23 @@ import com.github.dinbtechit.jetbrainsnestjs.actions.notification.DonateAction
 import com.github.dinbtechit.jetbrainsnestjs.actions.notification.StarGithubRepoAction
 import com.github.dinbtechit.jetbrainsnestjs.actions.notification.WhatsNewAction
 import com.github.dinbtechit.jetbrainsnestjs.settings.SettingsStore
-import com.intellij.ide.plugins.IdeaPluginDescriptor
-import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
-import com.intellij.openapi.extensions.PluginId
+import com.intellij.openapi.extensions.PluginAware
+import com.intellij.openapi.extensions.PluginDescriptor
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
 
 
-class MyStartupNotifyActivity : StartupActivity.DumbAware {
+class MyStartupNotifyActivity : StartupActivity.DumbAware, PluginAware {
+
+    private var pluginDescriptor: PluginDescriptor? = null
+
+    override fun setPluginDescriptor(pluginDescriptor: PluginDescriptor) {
+        this.pluginDescriptor = pluginDescriptor
+    }
 
     private val updateContent: String by lazy {
         //language=HTML
@@ -63,7 +68,7 @@ class MyStartupNotifyActivity : StartupActivity.DumbAware {
         return updateContent
     }
 
-    private fun getPlugin(): IdeaPluginDescriptor? = PluginManagerCore.getPlugin(PluginId.getId(pluginId))
+    private fun getPlugin(): PluginDescriptor? = pluginDescriptor
 
     private fun createNotification(
         title: String, content: String, type: NotificationType

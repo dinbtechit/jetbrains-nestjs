@@ -1,5 +1,6 @@
+.DS_Store
 .gradle
 .idea
 .intellijPlatform
-.qodana
+.kotlin
 build
