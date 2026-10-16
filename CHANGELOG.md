@@ -4,6 +4,8 @@
 
 ## [Unreleased]
 
+## [0.0.10] - 2026-10-16
+
 ### Changed
 
 - Sync project with the latest IntelliJ Platform Plugin Template
@@ -84,7 +86,8 @@
 - Initial NestJS CLI Action - Right click anywhere in the nest project and generate nest components. 
 - Bug Fixes
 
-[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.9...HEAD
+[Unreleased]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.10...HEAD
+[0.0.10]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/dinbtechit/jetbrains-nestjs/compare/v0.0.4...v0.0.7
